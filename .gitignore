@@ -5,7 +5,7 @@ __pycache__/
 crypto_dbt/target/
 crypto_dbt/logs/
 logs/
-
+*.pbix
 
 !data/raw/.gitkeep
 !data/processed/.gitkeep

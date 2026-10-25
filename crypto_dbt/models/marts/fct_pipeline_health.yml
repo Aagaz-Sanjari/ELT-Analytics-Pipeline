@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: fct_pipeline_health
+    columns:
+      - name: started_at
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              values: [success, failed]

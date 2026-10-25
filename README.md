@@ -14,6 +14,10 @@ Currently running with two live sources: **crypto market data** (CoinGecko) and 
 
 ![Weather page](docs/dashboard-weather.png)
 
+**Pipeline Health page:** total runs, success rate, last run time, run duration by source, and a run history table fed by the `ops.pipeline_runs` log.
+
+![Pipeline Health page](docs/dashboard-pipeline-health.png)
+
 ## Architecture
 
 ```
@@ -126,7 +130,7 @@ dbt test --profiles-dir .
 
 Or run everything with `run_pipeline.bat`, which is also what the scheduled task executes.
 
-**6. Dashboard:** open the Power BI file in the repo, connect it to the `crypto_analytics` database, and load `analytics.fct_coin_metrics` and `analytics.fct_city_weather`.
+**6. Dashboard:** build the Power BI report on `analytics.fct_coin_metrics`, `analytics.fct_city_weather`, and `analytics.fct_pipeline_health` (screenshots above).
 
 ## Adding a new data source
 
@@ -144,7 +148,7 @@ No change to the loader, the raw table, or the scheduler is needed.
 
 ## Roadmap
 
-- Pipeline run log table (rows loaded, duration, test results)
+
 - Docker and Airflow for orchestration
 - GitHub Actions to run dbt tests on each push
 

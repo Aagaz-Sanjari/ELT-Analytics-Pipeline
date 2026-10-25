@@ -5,3 +5,8 @@ sources:
     schema: raw
     tables:
       - name: ingested_records
+
+  - name: ops
+    schema: ops
+    tables:
+      - name: pipeline_runs
