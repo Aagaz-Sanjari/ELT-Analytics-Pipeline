@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime, timezone
 
 import yaml
+import requests
 from sqlalchemy import text
 
 from ingest.loader import build_rows, insert_rows, engine
@@ -43,6 +44,14 @@ def ensure_ops_table():
         conn.execute(create_schema_stmt)
         conn.execute(create_table_stmt)
 
+def fetch_with_retry(connector, attempts=3, delay=15):
+    for attempt in range(1, attempts + 1):
+        try:
+            return connector.fetch()
+        except requests.exceptions.RequestException:
+            if attempt == attempts:
+                raise
+            time.sleep(delay * attempt)
 
 def build_connector(entry):
     module_path, class_name = entry["connector"].rsplit(".", 1)
@@ -73,7 +82,7 @@ def run_connector(entry):
 
     try:
         before = count_rows(connector.source, connector.dataset)
-        records = connector.fetch()
+        records = fetch_with_retry(connector)
         rows = build_rows(
             connector.source, connector.dataset, records, str(uuid.uuid4())
         )
